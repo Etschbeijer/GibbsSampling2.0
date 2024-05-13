@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GibbsSampling", "GibbsSampling\GibbsSampling.fsproj", "{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20A09BD3-0ECA-4738-A6E0-C89285F8D9C0}
+	EndGlobalSection
+EndGlobal
