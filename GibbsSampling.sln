@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GibbsSampling", "GibbsSampling\GibbsSampling.fsproj", "{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GibbsSampling.Appication", "GibbsSampling\GibbsSampling.Appication.fsproj", "{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5E41D4DB-5DBD-400B-A322-CAA03EDD8BD7}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GibbsSampling.Library", "GibbsSampling.Library\GibbsSampling.Library.fsproj", "{4E971884-3FCD-4307-AE86-8044397940A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,10 @@ Global
 		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E971884-3FCD-4307-AE86-8044397940A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E971884-3FCD-4307-AE86-8044397940A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E971884-3FCD-4307-AE86-8044397940A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E971884-3FCD-4307-AE86-8044397940A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
