@@ -6,15 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="MotifSampler\MotifSamplerFunctions.fs" />
-    <Compile Include="MotifSampler\MotifSamplerTypes.fs" />
-    <Compile Include="PositionMatrix\PositionMatrixFunctions.fs" />
-    <Compile Include="PositionMatrix\PositionMatrixTypes.fs" />
-    <Compile Include="SiteSampler\SiteSamplerFunctions.fs" />
-    <Compile Include="SiteSampler\SiteSamplerTypes.fs" />
-    <Compile Include="CompositeVector\CompositeVectorFunctions.fs" />
     <Compile Include="CompositeVector\CompositeVectorTypes.fs" />
+    <Compile Include="CompositeVector\CompositeVectorFunctions.fs" />
+    <Compile Include="PositionMatrix\PositionMatrixTypes.fs" />
+    <Compile Include="PositionMatrix\PositionMatrixFunctions.fs" />
+    <Compile Include="SiteSampler\SiteSamplerFunctions.fs" />
+    <Compile Include="MotifSampler\MotifSamplerTypes.fs" />
+    <Compile Include="MotifSampler\MotifSamplerFunctions.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="BioFSharp" Version="1.2.0" />
