@@ -3,14 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GibbsSampling.Application", "GibbsSampling\GibbsSampling.Application.fsproj", "{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4E971884-3FCD-4307-AE86-8044397940A1} = {4E971884-3FCD-4307-AE86-8044397940A1}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5E41D4DB-5DBD-400B-A322-CAA03EDD8BD7}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GibbsSampling.Library", "GibbsSampling.Library\GibbsSampling.Library.fsproj", "{4E971884-3FCD-4307-AE86-8044397940A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F67D29A4-05C6-4418-AA99-D98203C4CC3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{9443E556-A156-433E-A19B-A61BD4090D70}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GibbsSampling.Application.Tests", "GibbsSampling.Application.Tests\GibbsSampling.Application.Tests.fsproj", "{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GibbsSampling.Application", "GibbsSampling.Application\GibbsSampling.Application.fsproj", "{C9C90C76-97B1-4408-A80B-7405AB30DBF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,17 +21,25 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C54D0A0-E831-43CC-86B2-32A7E3979BC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E971884-3FCD-4307-AE86-8044397940A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E971884-3FCD-4307-AE86-8044397940A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E971884-3FCD-4307-AE86-8044397940A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E971884-3FCD-4307-AE86-8044397940A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F67D29A4-05C6-4418-AA99-D98203C4CC3F} = {5E41D4DB-5DBD-400B-A322-CAA03EDD8BD7}
+		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF} = {9443E556-A156-433E-A19B-A61BD4090D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20A09BD3-0ECA-4738-A6E0-C89285F8D9C0}

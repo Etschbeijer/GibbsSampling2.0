@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Fixtures\Fixture.fs" />
+    <Compile Include="Tests\SuccessfullTests.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BioFSharp" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GibbsSampling.Library\GibbsSampling.Library.fsproj" />
+  </ItemGroup>
+
+</Project>
