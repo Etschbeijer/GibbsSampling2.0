@@ -46,13 +46,7 @@ type Fixture() =
             AminoAcidSymbols.AminoAcidSymbol.Val
         |]
 
-    member this.ShortProfileSequences with get () =
-        [|
-            "CACGTG"
-            "CACGTG"
-            "CACGTG"
-            "CACGTG"
-        |]
+    member this.ShortProfileSequences with get () = "CACGTG"
     
     member this.LongProfileSequences with get () =
         [|
@@ -89,21 +83,18 @@ type Fixture() =
             "TTTCGACGCGAATAGACTTTTTCCTTCTTACAGAACGATAATAACTAACATGACTTTAACAG"
         |]
 
-    member this.FrequencyCompositeVector with get () =
-        this.ShortProfileSequences
-        |> Array.map (fun item -> BioArray.ofNucleotideString item)
-        |> Array.map(fun bioArray -> createFCVOf bioArray)
+    member this.FrequencyCompositeVector with get () =        
+        BioArray.ofNucleotideString this.ShortProfileSequences
+        |> createFCVOf
        
-    member this.ProbabilityCompositeVector with get () =
-        this.FrequencyCompositeVector
-        |> Array.map(fun bioArray -> createPCVOf bioArray)
+    member this.ProbabilityCompositeVector with get () =        
+        createPCVOf this.FrequencyCompositeVector
 
-    member this.PositionProbabilityMatrix with get () =
-        this.ShortProfileSequences
-        |> Array.map (fun item -> BioArray.ofNucleotideString item)
-        |> Array.map(fun bioArray -> createPFMOf bioArray)
-        |> Array.map(fun pfm -> createPPMOf pfm)
-        |> Array.map(fun pbm -> normalizePPM this.ShortProfileSequences[0].Length this.DNABases this.Pseudocount pbm)
+    member this.PositionProbabilityMatrix with get () =        
+        BioArray.ofNucleotideString this.ShortProfileSequences
+        |> createPFMOf
+        |> createPPMOf
+        |> normalizePPM this.ShortProfileSequences.Length this.DNABases this.Pseudocount
 
     member this.PositionWeightMatrix with get () =
-        new PositionWeightMatrix(Array2D.length2 this.PositionProbabilityMatrix[0].Matrix)
+        new PositionWeightMatrix(Array2D.length2 this.PositionProbabilityMatrix.Matrix)
