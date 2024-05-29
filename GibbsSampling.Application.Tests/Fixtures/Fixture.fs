@@ -56,16 +56,7 @@ type Fixture() =
             "CTCGTTAGGACCATCACGTGA"
         |]
 
-    member this.ThyminFocusedProfileSequences with get () =
-        [|
-            "GTGGCTGCACCACGTGTATGCCACGTG"
-            "ACATCGCATCACGTGACCAGTTAGTTG"
-            "CCTCGCACGTGGTGGTACAGTCGTACG"
-            "GCATAAAGGACCATCACGTGAAGCTGC"
-            "TTTTTTTTTTTTTTTTTTTTTTTTTTT"
-        |]
-
-    member this.VeryLongProfileSequences with get () =
+    member this.ComplexProfileSequences with get () =
         [|
             "GTAAGTACAGAAAGCCACAGAGTACCATCTAGGAAATTAACATTATACTAACTTTCTACATCGTTGATACTTATGCGTATACATTCATATA"
             "AGACAGAGTCTAAAGATTGCATTACAAGAAAAAAGTTCTCATTACTAACAAGCAAAATGTTTTGTTTCTCCTTTTA"

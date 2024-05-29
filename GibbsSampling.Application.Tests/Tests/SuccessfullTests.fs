@@ -235,3 +235,36 @@ module MotifSamplerTests =
         result[0].PWMS.Should().Be(2)
         result[1].PWMS.Should().Be(4)
         result[2].PWMS.Should().Be(0)
+
+module HeuristicTests =
+
+    open SiteSampler.Functions
+
+
+    /// Heuristic function, smae result is possible but should not happen often
+    [<Fact>]
+    let ShouldGetDifferentSegments () =
+        
+        let fixture = new Fixture()
+
+        let complexProfileSequences =
+            fixture.ComplexProfileSequences
+            |> Array.map (fun bioArray -> BioArray.ofNucleotideString bioArray)
+
+        let resultI =             
+            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 fixture.DNABases complexProfileSequences)
+        
+        let orderedResultI =
+            resultI
+            |> Array.countBy (fun items -> items |> Array.map (fun item -> snd item))
+            |> Array.sortByDescending (fun (_, i) -> i)
+
+        let resultII =             
+            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 fixture.DNABases complexProfileSequences)
+        
+        let orderedResultII =
+            resultII
+            |> Array.countBy (fun items -> items |> Array.map (fun item -> snd item))
+            |> Array.sortByDescending (fun (_, i) -> i)
+
+        orderedResultI.Should().NotBeSameAs(orderedResultII)
