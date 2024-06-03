@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GibbsSampling.Application.Tests", "GibbsSampling.Application.Tests\GibbsSampling.Application.Tests.fsproj", "{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GibbsSampling.Application", "GibbsSampling.Application\GibbsSampling.Application.fsproj", "{C9C90C76-97B1-4408-A80B-7405AB30DBF7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6143E3CB-D7DC-47E0-A9A7-04EE0F441BAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9C90C76-97B1-4408-A80B-7405AB30DBF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@
 open System
 open FSharpAux
 open BioFSharp
+open HelperFunctions
 open CompositeVector.Types
 open CompositeVector.Functions
 open PositionMatrix.Types
@@ -22,8 +23,10 @@ module Functions =
                     let pwMatrix = createPositionWeightMatrix alphabet pcv positionProbabilityMatrix
                     segment
                     |> calculateSegmentScoreBy pwMatrix
-                if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                if tmp > highValue then 
+                    loop (n + 1) tmp n
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Checks whether downstream of given positions a higher InformationContent is present or not. 
@@ -34,15 +37,16 @@ module Functions =
         let randomSourceNumber = Array.shuffleFisherYates(rnd)(source)
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then 
-                if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
-            else
-                let unChosenStartPositions =
-                    let tmp = Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
-                    Array.append bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
-                    |> Array.map2 (fun (source:BioArray.BioArray<#IBioItem>) (_, position) -> if position <= source.Length - motiveLength - 1 then position + 1 else position) tmp
+                if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then 
+                    acc
+                else 
+                    loop 0 acc (Array.copy acc)
+            else                
                 let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                let unChosenStartPositions =  
+                    mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
+                    |> Array.map2 (fun (source:BioArray.BioArray<#IBioItem>) (_, position) -> if position <= source.Length - motiveLength - 1 then position + 1 else position) unChosenArrays
                 let positionProbabilityMatrix =
                     Array.map2 (fun subSequence position -> 
                         (getSegment motiveLength subSequence position) 
@@ -56,10 +60,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Checks whether upstream of given positions a higher PositionWeightMatrixScore is present or not. 
     /// If yes, the new PositionWeightMatrixScore and positions are given back, otherwise the old ones.
@@ -69,13 +74,14 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
-                let unChosenStartPositions =
-                    Array.append bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
+                let unChosenStartPositions =                   
+                    mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
                     |> Array.map (fun (_, position) -> if position > 0 then position - 1 else position)
-                let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[randomSourceNumber.[n]]-1] sources.[randomSourceNumber.[randomSourceNumber.[n]]+1..]
+                let unChosenArrays = 
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
                 let positionProbabilityMatrix =
                     Array.map2 (fun subSequence position -> 
                         (getSegment motiveLength subSequence position) 
@@ -89,10 +95,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Checks the given Sequence for the existence of a conserved motive, by scoring each segment based on the given start positions.
     /// The new PositionWeightMatrix is calculated and updated each iteration if segments with higher scores are found until convergence.
@@ -102,13 +109,14 @@ module Functions =
         let rec loop (n:int) acc bestmotive =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
-                    Array.append acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
+                    mergeArrays acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
                     |> Array.map (fun (_, position) -> position)
                 let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
                 let positionProbabilityMatrix =
                     Array.map2 (fun subSequence position -> 
                         (getSegment motiveLength subSequence position) 
@@ -122,10 +130,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Creates a random start position for each sequence and calculates a PositionWeightMatrix based on the. 
     /// The PositionWeithMatrix is then used to find the best PositionWeightMatrixScore for each sequence and gives you back the new Positions and PositionWeightMatrixScores.
@@ -136,7 +145,7 @@ module Functions =
             if n = sources.Length then (List.rev acc) |> List.toArray
             else
                 let unChosenArrays =
-                    Array.append (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
+                    mergeArrays (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
                 let randomStartPositions = 
                     unChosenArrays
                     |> Array.map (fun unChosen ->
@@ -197,7 +206,8 @@ module Functions =
                     segment
                     |> calculateSegmentScoreBy pwMatrix
                 if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Gives the startPosition and score of the segment with the highest PositionWeightMatrixScore based on the given sequence and PositionWeightMatrix.
@@ -212,7 +222,8 @@ module Functions =
                     segment
                     |> calculateSegmentScoreBy pwMatrix
                 if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Checks whether downstream of given positions a higher InformationContent is present or not. 
@@ -223,14 +234,14 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
-                let unChosenStartPositions =
-                    let tmp = Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
-                    Array.append bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
-                    |> Array.map2 (fun (source:BioArray.BioArray<#IBioItem>) (_, position) -> if position <= source.Length - motiveLength - 1 then position + 1 else position) tmp
                 let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                let unChosenStartPositions =
+                    mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
+                    |> Array.map2 (fun (source:BioArray.BioArray<#IBioItem>) (_, position) -> if position <= source.Length - motiveLength - 1 then position + 1 else position) unChosenArrays
                 let frequencyCompositeVector =
                     Array.map2 (fun unchosenArray position ->
                         createFCVWithout motiveLength position unchosenArray) unChosenArrays unChosenStartPositions
@@ -248,10 +259,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Checks whether upstream of given positions a higher PositionWeightMatrixScore is present or not. 
     /// If yes, the new PositionWeightMatrixScore and positions are given back, otherwise the old ones.
@@ -261,13 +273,14 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
-                    Array.append bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
+                    mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
                     |> Array.map (fun (_, position) -> if position > 0 then position - 1 else position)
                 let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
                 let frequencyCompositeVector =
                     Array.map2 (fun unchosenArray position ->
                         createFCVWithout motiveLength position unchosenArray) unChosenArrays unChosenStartPositions
@@ -285,10 +298,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Checks the given sequence for the existence of a conserved motive, by scoring each segment based on the given start positions.
     /// The new PositionWeightMatrix is calculated and updated at each iteration if segments with higher scores are found until convergence.
@@ -298,13 +312,14 @@ module Functions =
         let rec loop (n:int) acc bestmotive =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
-                    Array.append acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
+                    mergeArrays acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
                     |> Array.map (fun (_, position) -> position)
                 let unChosenArrays =
-                    Array.append sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
+                    mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
                 let frequencyCompositeVector =
                     Array.map2 (fun unchosenArray position ->
                         createFCVWithout motiveLength position unchosenArray) unChosenArrays unChosenStartPositions
@@ -322,10 +337,11 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
-        loop 0 (Array.copy startPositions) (Array.copy startPositions)
+        loop 0 startPositions startPositions
 
     /// Creates a random start position for each sequence and calculates a PositionWeightMatrix based on the. 
     /// The PositionWeithMatrix is then used to find the best PositionWeightMatrixScore for each sequence and gives you back the new Positions and PositionWeightMatrixScores.
@@ -336,7 +352,7 @@ module Functions =
             if n = sources.Length then acc
             else
                 let unChosenArrays =
-                    Array.append (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
+                    mergeArrays (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
                 let randomStartPositions = 
                     unChosenArrays
                     |> Array.map (fun unChosen ->
@@ -394,7 +410,7 @@ module Functions =
             if n = sources.Length then acc
             else
                 let unChosenArrays =
-                    Array.append (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
+                    mergeArrays (sources.[0..randomSourceNumber.[n]-1]) (sources.[randomSourceNumber.[n]+1..])
                 let randomStartPositions = 
                     unChosenArrays
                     |> Array.map (fun unChosen ->
@@ -480,7 +496,7 @@ module Functions =
             if n = sources.Length then (List.rev acc) |> List.toArray
             else
                 let unChosenArrays =
-                    Array.append (sources.[0..n-1]) (sources.[n+1..])
+                    mergeArrays (sources.[0..n-1]) (sources.[n+1..])
                 let randomStartPositions = 
                     unChosenArrays
                     |> Array.map (fun unChosen ->
