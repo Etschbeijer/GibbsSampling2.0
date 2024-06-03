@@ -23,8 +23,7 @@ module Functions =
     /// Get an integer which is between 0 and the length of the sequence - segmentLength
     let internal getRandomNumberInSequence (segmentLength:int) (source:'a[]) =
         let rnd = System.Random()
-        Array.init 1 (fun _ -> rnd.Next(0, source.Length-segmentLength+1))
-        |> Array.head
+        rnd.Next(0, source.Length-segmentLength+1)
 
     /// Create a specific sub sequence of the source sequence based on the given length and starting position. Do not forget, sequences start counting at 0!
     let internal getSegment (subsequenceLength:int) (source:'a[]) (startPoint:int) =

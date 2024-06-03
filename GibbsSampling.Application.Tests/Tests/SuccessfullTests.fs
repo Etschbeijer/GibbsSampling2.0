@@ -3,6 +3,7 @@
 open Xunit
 open FluentAssertions
 open BioFSharp
+open HelperFunctions
 
 open Fixture
 
@@ -239,7 +240,7 @@ module MotifSamplerTests =
 module HeuristicTests =
 
     open SiteSampler.Functions
-
+    open FSharpAux
 
     /// Heuristic function, smae result is possible but should not happen often
     [<Fact>]
@@ -268,3 +269,13 @@ module HeuristicTests =
             |> Array.sortByDescending (fun (_, i) -> i)
 
         orderedResultI.Should().NotBeSameAs(orderedResultII)
+
+    [<Fact>]
+    let ShouldMergeArrays () =
+
+        let arrayI = [|1; 2; 3; 4|]
+        let arrayII = [|4; 5; 6|]         
+
+        let mergedArrays = mergeArrays arrayI arrayII
+
+        mergedArrays

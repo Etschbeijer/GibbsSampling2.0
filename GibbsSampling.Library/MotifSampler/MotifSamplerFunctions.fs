@@ -2,6 +2,7 @@
 
 open FSharpAux
 open BioFSharp
+open HelperFunctions
 open CompositeVector.Types
 open CompositeVector.Functions
 open PositionMatrix.Types
@@ -88,10 +89,10 @@ module Functions =
                 else loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
-                    Array.append acc.[0..n-1] acc.[n+1..]
+                    mergeArrays acc.[0..n-1] acc.[n+1..]
                     |> Array.map (fun item -> item.Positions |> List.toArray)
                 let unChosenArrays =
-                    Array.append sources.[0..n-1] sources.[n+1..]
+                    mergeArrays sources.[0..n-1] sources.[n+1..]
                 let positionProbabilityMatrix =
                     Array.map2 (fun subSequence positions -> 
                         positions
@@ -127,10 +128,10 @@ module Functions =
             if n = sources.Length then (List.rev acc) |> Array.ofList
             else
                 let unChosenStartPositions =
-                    Array.append motifMem.[0..n-1] motifMem.[n+1..]
+                    mergeArrays motifMem.[0..n-1] motifMem.[n+1..]
                     |> Array.map (fun item -> item.Positions |> List.toArray)
                 let unChosenArrays =
-                    Array.append sources.[0..n-1] sources.[n+1..]
+                    mergeArrays sources.[0..n-1] sources.[n+1..]
                 let positionProbabilityMatrix =
                     Array.map2 (fun subSequence positions -> 
                         positions
@@ -185,10 +186,10 @@ module Functions =
                 else loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
-                    Array.append acc.[0..n-1] acc.[n+1..]
+                    mergeArrays acc.[0..n-1] acc.[n+1..]
                     |> Array.map (fun item -> item.Positions |> List.toArray)
                 let unChosenArrays =
-                    Array.append sources.[0..n-1] sources.[n+1..]
+                    mergeArrays sources.[0..n-1] sources.[n+1..]
                 let backgroundProbabilityVector =
                     Array.map2 (fun array positions -> 
                         positions
@@ -234,10 +235,10 @@ module Functions =
             if n = sources.Length then (List.rev acc) |> Array.ofList
             else
                 let unChosenStartPositions =
-                    Array.append motifMem.[0..n-1] motifMem.[n+1..]
+                    mergeArrays motifMem.[0..n-1] motifMem.[n+1..]
                     |> Array.map (fun item -> item.Positions |> List.toArray)
                 let unChosenArrays =
-                    Array.append sources.[0..n-1] sources.[n+1..]
+                    mergeArrays sources.[0..n-1] sources.[n+1..]
                 let backgroundProbabilityVector =
                     Array.map2 (fun array positions -> 
                         positions

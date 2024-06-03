@@ -1,6 +1,7 @@
 namespace CompositeVector
 
 open BioFSharp
+open HelperFunctions
 open CompositeVector.Types
 
 module Functions =
@@ -31,7 +32,7 @@ module Functions =
     /// Create FrequencyCompositeVector based on BioArray and excludes the specified segment.
     let createFCVWithout (motiveLength:int) (position:int) (resSource:BioArray.BioArray<#IBioItem>) =
         let backGroundCounts = new FrequencyCompositeVector()
-        Array.append resSource.[0..(position-1)] resSource.[(position+motiveLength)..]
+        mergeArrays resSource.[0..(position-1)] resSource.[(position+motiveLength)..]
         |> Array.fold (fun bc bioItem -> (increaseInPlaceFCV bioItem bc)) backGroundCounts
 
     /// Create FrequencyCompositeVector based on BioArray.
