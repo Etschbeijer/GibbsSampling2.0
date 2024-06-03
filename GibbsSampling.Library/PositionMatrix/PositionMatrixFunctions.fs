@@ -1,5 +1,6 @@
 ﻿namespace PositionMatrix
 
+open FSharpAux
 open BioFSharp
 open CompositeVector.Types
 open PositionMatrix.Types
@@ -17,7 +18,8 @@ module Functions =
                     else
                         if Operators.abs(items.[n]-items.[i]) > width then
                             loop n (i+1)
-                        else false
+                        else 
+                            false
             loop 0 1
 
     /// Get an integer which is between 0 and the length of the sequence - segmentLength
@@ -63,8 +65,7 @@ module Functions =
     let createPFMOf (source:BioArray.BioArray<#IBioItem>) =
         let positionFrequencyMatrix = new PositionFrequencyMatrix(source.Length)
         source
-        |> Array.fold (fun (row, cm) column -> row + 1, increaseInPlacePFM row column cm) (0, positionFrequencyMatrix) |> ignore
-        positionFrequencyMatrix
+        |> Array.foldi (fun row (cm) column -> increaseInPlacePFM row column cm) (positionFrequencyMatrix)
 
     /// Create new PositionFrequencyMatrix based on the sum of the positions of an array of Countmatrices.
     let fusePositionFrequencyMatrices (motiveLength:int) (countMatrices:PositionFrequencyMatrix[]) =
@@ -75,7 +76,8 @@ module Functions =
                         for row = 0 to (Array2D.length2 cMatrix.Matrix)-1 do
                             positionFrequencyMatrix.Matrix.[column, row] <- positionFrequencyMatrix.Matrix.[column, row] + (cMatrix.Matrix.[column, row])
             positionFrequencyMatrix
-        else positionFrequencyMatrix
+        else 
+            positionFrequencyMatrix
 
     /// Increase counter of PositionProbabilityMatrix at fixed position by 1.
     let increaseInPlacePPM (pos:int) (bioItem:'a when 'a :> IBioItem) (positionProbabilityMatrix:PositionProbabilityMatrix) = 

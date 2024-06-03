@@ -26,14 +26,16 @@ module Functions =
             seq
                 {
                     match size, set with
-                    | n, x::xs ->
-                        if n > 0 then
+                    | n, x::xs
+                        when n >= 0 ->
                             if checkForDistance width (snd x::positions) then
                                 if log2(fst x*prob) > cutOff then
                                     yield! loop (fst x*prob) (snd x::positions) (n - 1) xs
-                        if n >= 0 then yield! loop prob positions n xs
+                            if n >= 0 then 
+                                yield! loop prob positions n xs
                     | 0, [] -> yield createMotifIndex (log2(prob)) positions
-                    | _, [] -> () 
+                    | _, [] -> ()
+                    | _ -> () 
                 }
         loop 1. [] m set
         |> List.ofSeq
@@ -46,8 +48,10 @@ module Functions =
             items
             |> List.map (fun item -> item.PWMS/sum, item)
         let rec loop acc n =
-            if acc <= pick && pick <= acc + fst normalizedItems.[n] then items.[n]
-            else loop (acc + fst normalizedItems.[n]) (n + 1)
+            if acc <= pick && pick <= acc + fst normalizedItems.[n] then 
+                items.[n]
+            else 
+                loop (acc + fst normalizedItems.[n]) (n + 1)
         loop 0. 0       
 
     /// Calculates the normalized segment score based on the given PositionWeightMatrix and 
@@ -56,7 +60,8 @@ module Functions =
     let calculateNormalizedSegmentScores (cutOff:float) (motifAmount:int) (motifLength:int) (source:BioArray.BioArray<#IBioItem>) (pcv:ProbabilityCompositeVector) (pwMatrix:PositionWeightMatrix) =
         let segments =
             let rec loop n acc =
-                if n + motifLength = source.Length+1 then List.rev acc
+                if n + motifLength = source.Length+1 then 
+                    List.rev acc
                 else
                     let tmp =
                         source
@@ -74,7 +79,8 @@ module Functions =
             |> List.map (fun segmentScore -> createMotifIndex segmentScore [])
         let tmp =
             let rec loop n acc =
-                if n > motifAmount then List.rev acc
+                if n > motifAmount then 
+                    List.rev acc
                 else loop (n+1) (calculatePWMsForSegmentCombinations cutOff motifLength n segmentScores::acc)
             loop 1 [backGroundScores]
         tmp
@@ -85,8 +91,10 @@ module Functions =
     let findBestMotifPositionsWithStartPositionByPCV (motifAmount:int) (motifLength:int) (pseudoCount:float) (cutOff:float) (alphabet:#IBioItem[]) (sources:BioArray.BioArray<#IBioItem>[]) (pcv:ProbabilityCompositeVector) (motifMem:MotifIndex[]) =
         let rec loop (n:int) acc bestMotif =
             if n = sources.Length then 
-                if (acc |> Array.map (fun item -> item.Positions)) = (bestMotif |> Array.map (fun item -> item.Positions)) then acc
-                else loop 0 acc (Array.copy acc)
+                if (acc |> Array.map (fun item -> item.Positions)) = (bestMotif |> Array.map (fun item -> item.Positions)) then 
+                    acc
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
                     mergeArrays acc.[0..n-1] acc.[n+1..]
@@ -113,7 +121,8 @@ module Functions =
                     (if tmp.PWMS > acc.[n].PWMS then 
                         acc.[n] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestMotif
         loop 0 (Array.copy motifMem) (Array.copy motifMem)
@@ -220,7 +229,8 @@ module Functions =
                     (if tmp.PWMS > acc.[n].PWMS then 
                         acc.[n] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestMotif
         loop 0 (Array.copy motifMem) (Array.copy motifMem)

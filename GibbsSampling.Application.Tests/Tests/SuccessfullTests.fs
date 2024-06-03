@@ -13,11 +13,9 @@ module CompositeVectorTests =
     
     [<Fact>]
     let ShouldCreateFrequenceCompositeVector () =
-
-        let fixture = new Fixture()
         
         let result =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createFCVOf
 
         (result[Nucleotides.Nucleotide.A]).Should().Be(1, null, null)
@@ -28,11 +26,9 @@ module CompositeVectorTests =
 
     [<Fact>]
     let ShouldCreateProbabilityCompositeVector () =
-    
-        let fixture = new Fixture()
         
         let result =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createFCVOf
             |> createPCVOf
 
@@ -44,19 +40,17 @@ module CompositeVectorTests =
 
     [<Fact>]
     let ShouldCreateNormalizedProbabilityCompositeVector () =
-    
-        let fixture = new Fixture()
         
         let fcv =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createFCVOf
 
         let pcv =  createPCVOf fcv
 
-        let result = createNormalizedPCVOfFCV fixture.DNABases fixture.Pseudocount fcv
+        let result = createNormalizedPCVOfFCV Fixture.DNABases Fixture.Pseudocount fcv
 
         let calcNormalizaion(nultetide: Nucleotides.Nucleotide) = 
-            (pcv[nultetide] + fixture.Pseudocount) / float ((Array.sum fcv.Array) + fixture.DNABases.Length)
+            (pcv[nultetide] + Fixture.Pseudocount) / float ((Array.sum fcv.Array) + Fixture.DNABases.Length)
 
         (result[Nucleotides.Nucleotide.A]).Should().Be(calcNormalizaion Nucleotides.Nucleotide.A, null, null)
         (result[Nucleotides.Nucleotide.T]).Should().Be(calcNormalizaion Nucleotides.Nucleotide.T, null, null)
@@ -66,19 +60,17 @@ module CompositeVectorTests =
 
     [<Fact>]
     let ShouldCalculateSegmentScore () =
-    
-        let fixture = new Fixture()
         
         let ba =            
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> (fun item -> item[0..2])
 
         let fcv =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createFCVOf
 
         let pncv =             
-            createNormalizedPCVOfFCV fixture.DNABases fixture.Pseudocount fcv
+            createNormalizedPCVOfFCV Fixture.DNABases Fixture.Pseudocount fcv
 
         let result = calculateSegmentScoreBy pncv ba
 
@@ -101,7 +93,7 @@ module PositionMatrixTests =
         let fixture = new Fixture()
         
         let result =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createPFMOf
 
         result.Matrix[(BioItem.symbol Nucleotides.Nucleotide.C |> int) - 42, 0].Should().Be(1, null, null)
@@ -117,7 +109,7 @@ module PositionMatrixTests =
         let fixture = new Fixture()
         
         let result =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createPFMOf
             |> createPPMOf
 
@@ -130,26 +122,26 @@ module PositionMatrixTests =
 
     [<Fact>]
     let ShouldNormalizePositionProbabilityMatrix () =
-    
-        let fixture = new Fixture()
         
         let fcv =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createFCVOf
 
         let pcv = createPCVOf fcv
 
         let result =             
-            BioArray.ofNucleotideString fixture.ShortProfileSequences
+            BioArray.ofNucleotideString Fixture.ShortProfileSequences
             |> createPFMOf
             |> createPPMOf
-            |> normalizePPM fixture.ShortProfileSequences.Length fixture.DNABases fixture.Pseudocount
+            |> normalizePPM Fixture.ShortProfileSequences.Length Fixture.DNABases Fixture.Pseudocount
 
         let calcNormalizaion(nultetide: Nucleotides.Nucleotide) = 
             let value = 
-                if pcv[nultetide] > 1 then 1.
-                else pcv[nultetide]
-            (value + fixture.Pseudocount) / float ((Array.sum fcv.Array) + fixture.DNABases.Length)
+                if pcv[nultetide] > 1 then 
+                    1.
+                else 
+                    pcv[nultetide]
+            (value + Fixture.Pseudocount) / float ((Array.sum fcv.Array) + Fixture.DNABases.Length)
 
         result.Matrix[(BioItem.symbol Nucleotides.Nucleotide.C |> int) - 42, 0].Should().Be(calcNormalizaion Nucleotides.Nucleotide.C, null, null)
         result.Matrix[(BioItem.symbol Nucleotides.Nucleotide.A |> int) - 42, 1].Should().Be(calcNormalizaion Nucleotides.Nucleotide.A, null, null)
@@ -164,13 +156,11 @@ module SiteSamplerTests =
 
     [<Fact>]
     let ShouldGetBestSegmet () =
-
-        let fixture = new Fixture()
         
-        let source = BioArray.ofNucleotideString fixture.ShortProfileSequences
+        let source = BioArray.ofNucleotideString Fixture.ShortProfileSequences
 
         let result = 
-            getBestPWMSsWithBPV 3 fixture.DNABases source fixture.ProbabilityCompositeVector fixture.PositionProbabilityMatrix
+            getBestPWMSsWithBPV 3 Fixture.DNABases source Fixture.ProbabilityCompositeVector Fixture.PositionProbabilityMatrix
 
         (snd result).Should().Be(0, null, null)
 
@@ -179,34 +169,30 @@ module SiteSamplerTests =
 
         let fixture = new Fixture()
         
-        let source = BioArray.ofNucleotideString fixture.ShortProfileSequences
+        let source = BioArray.ofNucleotideString Fixture.ShortProfileSequences
 
         let result = 
-            getRightShiftedBestPWMSsWithBPV 3 1 fixture.DNABases [|source; source; source; source|] fixture.ProbabilityCompositeVector [|(5., 0); (5., 1); (5., 2); (5., 0)|]
+            getRightShiftedBestPWMSsWithBPV 3 1 Fixture.DNABases [|source; source; source; source|] Fixture.ProbabilityCompositeVector [|(5., 0); (5., 1); (5., 2); (5., 0)|]
 
         (snd result[0]).Should().Be(0, null, null)
 
     [<Fact>]
     let ShouldGetNotGetLeftSegmet () =
-
-        let fixture = new Fixture()
         
-        let source = BioArray.ofNucleotideString fixture.ShortProfileSequences
+        let source = BioArray.ofNucleotideString Fixture.ShortProfileSequences
 
         let result = 
-            getLeftShiftedBestPWMSsWithBPV 3 1 fixture.DNABases [|source; source; source; source|] fixture.ProbabilityCompositeVector [|(5., 0); (5., 1); (5., 2); (5., 0)|]
+            getLeftShiftedBestPWMSsWithBPV 3 1 Fixture.DNABases [|source; source; source; source|] Fixture.ProbabilityCompositeVector [|(5., 0); (5., 1); (5., 2); (5., 0)|]
 
         (snd result[0]).Should().Be(0, null, null)
 
     [<Fact>]
     let ShouldGetMotifsWithBestPWM () =
-
-        let fixture = new Fixture()
         
-        let source = BioArray.ofNucleotideString fixture.ShortProfileSequences
+        let source = BioArray.ofNucleotideString Fixture.ShortProfileSequences
 
         let result = 
-            getMotifsWithBestPWMSOfPPM 3 1 fixture.DNABases [|source; source; source; source|] fixture.PositionProbabilityMatrix
+            getMotifsWithBestPWMSOfPPM 3 1 Fixture.DNABases [|source; source; source; source|] Fixture.PositionProbabilityMatrix
 
         (snd result[0]).Should().Be(0, null, null)
 
@@ -228,10 +214,8 @@ module MotifSamplerTests =
 
     [<Fact>]
     let ShouldCalculateNormalizedSegmentScores () =
-
-        let fixture = new Fixture()
         
-        let result = calculateNormalizedSegmentScores 1 3 3 fixture.DNABases fixture.ProbabilityCompositeVector fixture.PositionWeightMatrix
+        let result = calculateNormalizedSegmentScores 1 3 3 Fixture.DNABases Fixture.ProbabilityCompositeVector Fixture.PositionWeightMatrix
 
         result[0].PWMS.Should().Be(2)
         result[1].PWMS.Should().Be(4)
@@ -240,7 +224,6 @@ module MotifSamplerTests =
 module HeuristicTests =
 
     open SiteSampler.Functions
-    open FSharpAux
 
     /// Heuristic function, smae result is possible but should not happen often
     [<Fact>]
@@ -249,11 +232,11 @@ module HeuristicTests =
         let fixture = new Fixture()
 
         let complexProfileSequences =
-            fixture.ComplexProfileSequences
+            Fixture.ComplexProfileSequences
             |> Array.map (fun bioArray -> BioArray.ofNucleotideString bioArray)
 
         let resultI =             
-            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 fixture.DNABases complexProfileSequences)
+            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 Fixture.DNABases complexProfileSequences)
         
         let orderedResultI =
             resultI
@@ -261,7 +244,7 @@ module HeuristicTests =
             |> Array.sortByDescending (fun (_, i) -> i)
 
         let resultII =             
-            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 fixture.DNABases complexProfileSequences)
+            Array.init 10 (fun _ -> getmotifsWithBestInformationContent 10 6 0.0001 Fixture.DNABases complexProfileSequences)
         
         let orderedResultII =
             resultII

@@ -23,8 +23,10 @@ module Functions =
                     let pwMatrix = createPositionWeightMatrix alphabet pcv positionProbabilityMatrix
                     segment
                     |> calculateSegmentScoreBy pwMatrix
-                if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                if tmp > highValue then 
+                    loop (n + 1) tmp n
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Checks whether downstream of given positions a higher InformationContent is present or not. 
@@ -35,8 +37,10 @@ module Functions =
         let randomSourceNumber = Array.shuffleFisherYates(rnd)(source)
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then 
-                if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then 
+                    acc
+                else 
+                    loop 0 acc (Array.copy acc)
             else                
                 let unChosenArrays =
                     mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
@@ -56,7 +60,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions
@@ -69,7 +74,8 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =                   
                     mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
@@ -89,7 +95,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions
@@ -102,7 +109,8 @@ module Functions =
         let rec loop (n:int) acc bestmotive =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
                     mergeArrays acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
@@ -122,7 +130,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions
@@ -197,7 +206,8 @@ module Functions =
                     segment
                     |> calculateSegmentScoreBy pwMatrix
                 if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Gives the startPosition and score of the segment with the highest PositionWeightMatrixScore based on the given sequence and PositionWeightMatrix.
@@ -212,7 +222,8 @@ module Functions =
                     segment
                     |> calculateSegmentScoreBy pwMatrix
                 if tmp > highValue then loop (n + 1) tmp n
-                else loop (n + 1) highValue highIndex
+                else 
+                    loop (n + 1) highValue highIndex
         loop 0 0. 0
 
     /// Checks whether downstream of given positions a higher InformationContent is present or not. 
@@ -223,7 +234,8 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenArrays =
                     mergeArrays sources.[0..randomSourceNumber.[n]-1] sources.[randomSourceNumber.[n]+1..]
@@ -247,7 +259,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions
@@ -260,7 +273,8 @@ module Functions =
         let rec loop (n:int) (acc:(float*int)[]) (bestmotive:(float*int)[]) =
             if n = sources.Length then
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
                     mergeArrays bestmotive.[0..randomSourceNumber.[n]-1] bestmotive.[randomSourceNumber.[n]+1..]
@@ -284,7 +298,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions
@@ -297,7 +312,8 @@ module Functions =
         let rec loop (n:int) acc bestmotive =
             if n = sources.Length then 
                 if (acc |> Array.map (fun item -> snd item)) = (bestmotive |> Array.map (fun item -> snd item)) then acc
-                else loop 0 acc (Array.copy acc)
+                else 
+                    loop 0 acc (Array.copy acc)
             else
                 let unChosenStartPositions =
                     mergeArrays acc.[0..randomSourceNumber.[n]-1] acc.[randomSourceNumber.[n]+1..]
@@ -321,7 +337,8 @@ module Functions =
                     (if fst tmp > fst acc.[randomSourceNumber.[n]] then 
                         acc.[randomSourceNumber.[n]] <- tmp
                         acc
-                     else acc                    
+                     else 
+                        acc                    
                     )
                     bestmotive
         loop 0 startPositions startPositions

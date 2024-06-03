@@ -7,9 +7,9 @@ open PositionMatrix.Functions
 
 type Fixture() =
     
-    member this.Pseudocount with get () = 1.
+    static member  Pseudocount = 1.
     
-    member this.DNABases with get () =
+    static member DNABases =
         [|
             Nucleotides.Nucleotide.A
             Nucleotides.Nucleotide.T
@@ -18,7 +18,7 @@ type Fixture() =
             Nucleotides.Nucleotide.Gap
         |]
 
-    member this.AminoAcids with get () =
+    static member AminoAcids =
         [|
             AminoAcidSymbols.AminoAcidSymbol.Ala
             AminoAcidSymbols.AminoAcidSymbol.Arg
@@ -46,9 +46,9 @@ type Fixture() =
             AminoAcidSymbols.AminoAcidSymbol.Val
         |]
 
-    member this.ShortProfileSequences with get () = "CACGTG"
+    static member ShortProfileSequences = "CACGTG"
     
-    member this.LongProfileSequences with get () =
+    static member LongProfileSequences =
         [|
             "GTGGCTGCACCACGTGTATGC"
             "ACATCGCATCACGTGACCAGT"
@@ -56,7 +56,7 @@ type Fixture() =
             "CTCGTTAGGACCATCACGTGA"
         |]
 
-    member this.ComplexProfileSequences with get () =
+    static member ComplexProfileSequences =
         [|
             "GTAAGTACAGAAAGCCACAGAGTACCATCTAGGAAATTAACATTATACTAACTTTCTACATCGTTGATACTTATGCGTATACATTCATATA"
             "AGACAGAGTCTAAAGATTGCATTACAAGAAAAAAGTTCTCATTACTAACAAGCAAAATGTTTTGTTTCTCCTTTTA"
@@ -74,18 +74,18 @@ type Fixture() =
             "TTTCGACGCGAATAGACTTTTTCCTTCTTACAGAACGATAATAACTAACATGACTTTAACAG"
         |]
 
-    member this.FrequencyCompositeVector with get () =        
-        BioArray.ofNucleotideString this.ShortProfileSequences
+    static member FrequencyCompositeVector =        
+        BioArray.ofNucleotideString Fixture.ShortProfileSequences
         |> createFCVOf
        
-    member this.ProbabilityCompositeVector with get () =        
-        createPCVOf this.FrequencyCompositeVector
+    static member ProbabilityCompositeVector =        
+        createPCVOf Fixture.FrequencyCompositeVector
 
-    member this.PositionProbabilityMatrix with get () =        
-        BioArray.ofNucleotideString this.ShortProfileSequences
+    static member PositionProbabilityMatrix =        
+        BioArray.ofNucleotideString Fixture.ShortProfileSequences
         |> createPFMOf
         |> createPPMOf
-        |> normalizePPM this.ShortProfileSequences.Length this.DNABases this.Pseudocount
+        |> normalizePPM Fixture.ShortProfileSequences.Length Fixture.DNABases Fixture.Pseudocount
 
-    member this.PositionWeightMatrix with get () =
-        new PositionWeightMatrix(Array2D.length2 this.PositionProbabilityMatrix.Matrix)
+    static member PositionWeightMatrix =
+        new PositionWeightMatrix(Array2D.length2 Fixture.PositionProbabilityMatrix.Matrix)
