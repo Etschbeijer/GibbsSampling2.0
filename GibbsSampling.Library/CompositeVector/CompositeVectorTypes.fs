@@ -15,14 +15,16 @@ module Types =
             let arr:'value [,] = Array2D.zeroCreate 49 rowLength 
             new BaseMatrix<_, 'value>(arr)
 
-        member this.Matrix = 
+        member val _matrix = 
             if (obj.ReferenceEquals(matrix, null)) then
-                raise (ArgumentNullException("array"))
-            matrix
-            
+                raise (ArgumentNullException("array"))        
+            (Array2D.copy matrix) with get, set
+
+        member this.Matrix = this._matrix
+
         member this.Item
-            with get (column, row)       = matrix.[getRowArray2DIndex column, row]
-            and  set (column, row) value = matrix.[getRowArray2DIndex column, row] <- value
+            with get (column, row)       = this._matrix.[getRowArray2DIndex column, row]
+            and  set (column, row) value = this._matrix.[getRowArray2DIndex column, row] <- value
     
     /// One dimensional array with fixed positions for each element.
     type CompositeVector<'a, 'value when 'a :> IBioItem>internal (array:'value []) =
