@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="HelperFunctions.fs" />
+    <Compile Include="CompositeVector\CompositeVectorTypes.fs" />
+    <Compile Include="CompositeVector\CompositeVectorFunctions.fs" />
+    <Compile Include="PositionMatrix\PositionMatrixTypes.fs" />
+    <Compile Include="PositionMatrix\PositionMatrixFunctions.fs" />
+    <Compile Include="SiteSampler\SiteSamplerFunctions.fs" />
+    <Compile Include="MotifSampler\MotifSamplerTypes.fs" />
+    <Compile Include="MotifSampler\MotifSamplerFunctions.fs" />
+  </ItemGroup>
+
+  <ItemGroup />
+
+  <ItemGroup>
+    <PackageReference Include="BioFSharp" Version="2.0.0-preview.3" />
+    <PackageReference Include="FSharpAux" Version="2.0.0" />
+    <PackageReference Include="Plotly.NET" Version="4.2.0" />
+  </ItemGroup>
+
+</Project>

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <ProjectReference Include="..\GibbsSampling.Library\GibbsSampling.Library.fsproj" />
   </ItemGroup>
 
 </Project>
