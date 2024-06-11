@@ -256,8 +256,8 @@ module HeuristicTests =
     [<Fact>]
     let ShouldMergeArrays () =
 
-        let arrayI = [|1; 2; 3; 4|]
-        let arrayII = [|4; 5; 6|]         
+        let arrayI = [|1; 2; 3;|]
+        let arrayII = [|4; 4; 4; 5; 6|]         
 
         let mergedArrays = mergeArrays arrayI arrayII
 
